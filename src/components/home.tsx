@@ -90,93 +90,98 @@ const Home = () => {
         />
 
         <div className="pt-[70px] pb-10">
-        <div className="container mx-auto px-4">
-          <Tabs value={activeTab} onValueChange={setActiveTab} className="mt-6">
-            <TabsList className="grid w-full grid-cols-3 mb-8">
-              <TabsTrigger value="browse">Browse Items</TabsTrigger>
-              <TabsTrigger value="swap">Swap Builder</TabsTrigger>
-              <TabsTrigger value="my-items">My Items</TabsTrigger>
-            </TabsList>
+          <div className="container mx-auto px-4">
+            <Tabs
+              value={activeTab}
+              onValueChange={setActiveTab}
+              className="mt-6"
+            >
+              <TabsList className="grid w-full grid-cols-3 mb-8">
+                <TabsTrigger value="browse">Browse Items</TabsTrigger>
+                <TabsTrigger value="swap">Swap Builder</TabsTrigger>
+                <TabsTrigger value="my-items">My Items</TabsTrigger>
+              </TabsList>
 
-            <TabsContent value="browse" className="mt-0">
-              <div className="bg-white rounded-lg shadow-sm p-6 mb-6">
-                <h1 className="text-3xl font-bold text-gray-800 mb-2">
-                  Find Items to Swap
-                </h1>
-                <p className="text-gray-600 mb-4">
-                  Browse through available items from the community and find
-                  something you'd like to swap for.
-                </p>
-              </div>
+              <TabsContent value="browse" className="mt-0">
+                <div className="bg-white rounded-lg shadow-sm p-6 mb-6">
+                  <h1 className="text-3xl font-bold text-gray-800 mb-2">
+                    Find Items to Swap
+                  </h1>
+                  <p className="text-gray-600 mb-4">
+                    Browse through available items from the community and find
+                    something you'd like to swap for.
+                  </p>
+                </div>
 
-              <ItemGrid
-                onViewDetails={handleViewDetails}
-                onInitiateSwap={handleInitiateSwap}
-              />
-            </TabsContent>
+                <ItemGrid
+                  onViewDetails={handleViewDetails}
+                  onInitiateSwap={handleInitiateSwap}
+                />
+              </TabsContent>
 
-            <TabsContent value="swap" className="mt-0">
-              {showSwapBuilder ? (
-                <div className="space-y-6">
-                  <div className="bg-white rounded-lg shadow-sm p-6 mb-6">
-                    <h1 className="text-3xl font-bold text-gray-800 mb-2">
-                      Build Your Swap
-                    </h1>
-                    <p className="text-gray-600 mb-4">
-                      Drag and drop items to create a balanced swap proposal.
-                      The compatibility score helps ensure a fair exchange.
-                    </p>
-                    {!showChat && (
-                      <Button
-                        variant="outline"
-                        onClick={() => setShowSwapBuilder(false)}
-                        className="mr-2"
-                      >
-                        Cancel
-                      </Button>
+              <TabsContent value="swap" className="mt-0">
+                {showSwapBuilder ? (
+                  <div className="space-y-6">
+                    <div className="bg-white rounded-lg shadow-sm p-6 mb-6">
+                      <h1 className="text-3xl font-bold text-gray-800 mb-2">
+                        Build Your Swap
+                      </h1>
+                      <p className="text-gray-600 mb-4">
+                        Drag and drop items to create a balanced swap proposal.
+                        The compatibility score helps ensure a fair exchange.
+                      </p>
+                      {!showChat && (
+                        <Button
+                          variant="outline"
+                          onClick={() => setShowSwapBuilder(false)}
+                          className="mr-2"
+                        >
+                          Cancel
+                        </Button>
+                      )}
+                    </div>
+
+                    {showChat ? (
+                      <div className="bg-white rounded-lg shadow-sm p-6">
+                        <h2 className="text-xl font-semibold mb-4">
+                          Discuss Swap Details
+                        </h2>
+                        <div className="h-[500px]">
+                          <SwapChat />
+                        </div>
+                      </div>
+                    ) : (
+                      <SwapBuilder
+                        initialOfferItems={[]}
+                        initialRequestItems={[]}
+                        onSubmitProposal={handleSubmitProposal}
+                      />
                     )}
                   </div>
+                ) : (
+                  <div className="bg-white rounded-lg shadow-sm p-6 text-center">
+                    <h1 className="text-3xl font-bold text-gray-800 mb-4">
+                      Swap Builder
+                    </h1>
+                    <p className="text-gray-600 mb-6 max-w-2xl mx-auto">
+                      Create a new swap proposal by selecting items you want to
+                      offer and items you'd like to receive in return.
+                    </p>
+                    <Button
+                      onClick={() => setShowSwapBuilder(true)}
+                      className="bg-teal-600 hover:bg-teal-700"
+                    >
+                      Start Building a Swap
+                    </Button>
+                  </div>
+                )}
+              </TabsContent>
 
-                  {showChat ? (
-                    <div className="bg-white rounded-lg shadow-sm p-6">
-                      <h2 className="text-xl font-semibold mb-4">
-                        Discuss Swap Details
-                      </h2>
-                      <div className="h-[500px]">
-                        <SwapChat />
-                      </div>
-                    </div>
-                  ) : (
-                    <SwapBuilder
-                      initialOfferItems={[]}
-                      initialRequestItems={[]}
-                      onSubmitProposal={handleSubmitProposal}
-                    />
-                  )}
-                </div>
-              ) : (
-                <div className="bg-white rounded-lg shadow-sm p-6 text-center">
-                  <h1 className="text-3xl font-bold text-gray-800 mb-4">
-                    Swap Builder
-                  </h1>
-                  <p className="text-gray-600 mb-6 max-w-2xl mx-auto">
-                    Create a new swap proposal by selecting items you want to
-                    offer and items you'd like to receive in return.
-                  </p>
-                  <Button
-                    onClick={() => setShowSwapBuilder(true)}
-                    className="bg-teal-600 hover:bg-teal-700"
-                  >
-                    Start Building a Swap
-                  </Button>
-                </div>
-              )}
-            </TabsContent>
-
-            <TabsContent value="my-items" className="mt-0">
-              <ItemManagement />
-            </TabsContent>
-          </Tabs>
+              <TabsContent value="my-items" className="mt-0">
+                <ItemManagement />
+              </TabsContent>
+            </Tabs>
+          </div>
         </div>
       </div>
     </DndProvider>

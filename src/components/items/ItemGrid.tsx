@@ -129,8 +129,8 @@ const ItemGrid = ({
   onInitiateSwap = (id) => console.log(`Initiate swap for item ${id}`),
 }: ItemGridProps) => {
   const [searchTerm, setSearchTerm] = useState("");
-  const [category, setCategory] = useState<string>("");
-  const [condition, setCondition] = useState<string>("");
+  const [category, setCategory] = useState<string>("all-categories");
+  const [condition, setCondition] = useState<string>("any-condition");
   const [viewMode, setViewMode] = useState<"grid" | "list">("grid");
 
   // Filter items based on search term, category, and condition
@@ -138,8 +138,10 @@ const ItemGrid = ({
     const matchesSearch =
       item.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
       item.description.toLowerCase().includes(searchTerm.toLowerCase());
-    const matchesCategory = category === "" || item.category === category;
-    const matchesCondition = condition === "" || item.condition === condition;
+    const matchesCategory =
+      category === "all-categories" || item.category === category;
+    const matchesCondition =
+      condition === "any-condition" || item.condition === condition;
 
     return matchesSearch && matchesCategory && matchesCondition;
   });
@@ -171,7 +173,7 @@ const ItemGrid = ({
                 <SelectValue placeholder="Category" />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="">All Categories</SelectItem>
+                <SelectItem value="all-categories">All Categories</SelectItem>
                 {categories.map((cat) => (
                   <SelectItem key={cat} value={cat}>
                     {cat}
@@ -185,7 +187,7 @@ const ItemGrid = ({
                 <SelectValue placeholder="Condition" />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="">Any Condition</SelectItem>
+                <SelectItem value="any-condition">Any Condition</SelectItem>
                 {conditions.map((cond) => (
                   <SelectItem key={cond} value={cond}>
                     {cond}
